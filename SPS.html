@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Steen-Papier-Schaar</title>
+
+    <style>
+
+        body {
+
+            text-align: center;
+
+            background-color: #f2f2f2;
+
+            font-family: Arial, sans-serif;
+
+        }
+
+        h1 {
+
+            margin-top: 50px;
+
+            color: #333;
+
+        }
+
+        p {
+
+            font-size: 18px;
+
+            margin-bottom: 20px;
+
+        }
+
+        .hand {
+
+            display: inline-block;
+
+            margin: 20px;
+
+            font-size: 48px;
+
+            cursor: pointer;
+
+            transition: transform 0.3s ease;
+
+        }
+
+        .hand:hover {
+
+            transform: scale(1.2);
+
+        }
+
+        #resultaat {
+
+            font-size: 24px;
+
+            margin-top: 30px;
+
+            color: #333;
+
+        }
+
+        .fade-in {
+
+            animation: fade-in 0.5s ease;
+
+        }
+
+        @keyframes fade-in {
+
+            0% { opacity: 0; }
+
+            100% { opacity: 1; }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Steen-Papier-Schaar</h1>
+
+    <p>Klik op een handgebaar om je keuze te maken:</p>
+
+    <div class="hand" id="steen">✊</div>
+
+    <div class="hand" id="papier">✋</div>
+
+    <div class="hand" id="schaar">✌️</div>
+
+    <p id="resultaat"></p>
+
+ 
+
+    <script>
+
+        const handen = document.querySelectorAll('.hand');
+
+        handen.forEach(hand => hand.addEventListener('click', speelSpel));
+
+ 
+
+        function speelSpel(event) {
+
+            const spelerKeuze = event.target.id;
+
+            const computerKeuze = computerKiest();
+
+ 
+
+            const resultaat = bepaalWinnaar(spelerKeuze, computerKeuze);
+
+            toonResultaat(spelerKeuze, computerKeuze, resultaat);
+
+        }
+
+ 
+
+        function computerKiest() {
+
+            const keuzes = ['steen', 'papier', 'schaar'];
+
+            const randomIndex = Math.floor(Math.random() * keuzes.length);
+
+            return keuzes[randomIndex];
+
+        }
+
+ 
+
+        function bepaalWinnaar(spelerKeuze, computerKeuze) {
+
+            if (spelerKeuze === computerKeuze) {
+
+                return 'Gelijkspel! Speel opnieuw.';
+
+            } else if (
+
+                (spelerKeuze === 'steen' && computerKeuze === 'schaar') ||
+
+                (spelerKeuze === 'schaar' && computerKeuze === 'papier') ||
+
+                (spelerKeuze === 'papier' && computerKeuze === 'steen')
+
+            ) {
+
+                return 'Jij wint!';
+
+            } else {
+
+                return 'De computer wint!';
+
+            }
+
+        }
+
+ 
+
+        function toonResultaat(spelerKeuze, computerKeuze, resultaat) {
+
+            const resultaatElement = document.getElementById('resultaat');
+
+            resultaatElement.classList.remove('fade-in');
+
+            void resultaatElement.offsetWidth; // Trigger reflow to restart animation
+
+            resultaatElement.innerHTML = `Jij koos ${spelerKeuze}. De computer koos ${computerKeuze}.<br>${resultaat}`;
+
+            resultaatElement.classList.add('fade-in');
+
+        }
+
+    </script>
+
+</body>
+
+</html>
+
+ 
